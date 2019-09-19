@@ -37,7 +37,7 @@ def func2():
             print("格式错误！格式示例：a:1,b:1,c:2,d:3（不允许包含空格）")
     dict1 = {x[0]: x[1] for x in [x.split(":") for x in input_str.split(",")]}
 
-    json_str = json.dumps(dict1, indent=4)
+    json_str = json.dumps(dict1, indent=4, ensure_ascii=False)
     print("\nJSON字符串:\n", json_str, "\ntype:", type(json_str))
 
     # 键值反转
