@@ -84,8 +84,7 @@ def func3():
             if sel == 'no':
                 encoding_list = ['UTF-8', 'GB2312', 'unicode']  # 此处仅为测试通过的编码类型
                 print("支持的编码类型有：", encoding_list)
-                sel2 = select("请选择编码类型：", "请在列表中选择。", encoding_list)
-                encoding = sel2
+                encoding = select("请选择编码类型：", "请在列表中选择。", encoding_list)
         data = data.decode(encoding).encode('UTF-8')
         img = qrcode.make(data=data)
         img.save("qrcode.jpg")
