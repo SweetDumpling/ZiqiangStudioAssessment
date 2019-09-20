@@ -2,28 +2,34 @@ import json
 import re
 import base64
 import qrcode
+import chardet
+
+
+def select(prompt1, prompt2, ans_list) -> str:
+    while True:
+        sel = input(prompt1)
+        if sel in ans_list:
+            return sel
+        else:
+            print(prompt2)
 
 
 def func1():
     print("请选择功能：")
     print("\t1. 加密\t2. 解密")
-    while True:
-        selection = input("请输入你的选择(1, 2)：")
-        if selection == '1':
-            plaintext = input("请输入明文：")
-            print("结果：", base64.b64encode(plaintext.encode()).decode(), "\n")
-            break
-        elif selection == '2':
-            while True:
-                ciphertext = input("请输入密文：")
-                try:
-                    print("结果：", base64.b64decode(ciphertext).decode(), "\n")
-                    break
-                except:
-                    print("密文格式错误。")
-            break
-        else:
-            print("请在1-2之间选择。")
+    sel = select("请输入你的选择(1, 2)：", "请在1-2之间选择。", ['1', '2'])
+    if sel == '1':
+        plaintext = input("请输入明文：")
+        print("结果：", base64.b64encode(plaintext.encode()).decode())
+    elif sel == '2':
+        while True:
+            ciphertext = input("请输入密文：")
+            try:
+                print("结果：", base64.b64decode(ciphertext).decode())
+            except:
+                print("密文格式错误。")
+            else:
+                break
 
 
 def func2():
@@ -47,7 +53,7 @@ def func2():
     for k in dict2:
         if len(dict2[k]) == 1:
             dict2[k] = dict2[k][0]
-    print("\n新字典:", dict2, "\ntype:", type(dict2), "\n")
+    print("\n新字典:", dict2, "\ntype:", type(dict2))
 
 
 def func3():
@@ -57,38 +63,50 @@ def func3():
             print("文件名格式有误，请检查输入是否正确。")
             continue
         try:
-            f = open(filename)
-            break
+            f = open(filename, "rb")
         except:
             print("文件打开失败，请检查输入是否正确，以及文件是否与程序在同一目录下。")
+        else:
+            break
     try:
         data = f.read()
-        f.close()
+        detect_result = chardet.detect(data)
+        encoding = detect_result['encoding']
+        if float(detect_result['confidence']) < 0.9:
+            print("文本过短，无法准确判断编码类型。")
+            if(detect_result['language'] == None or detect_result['encoding'] == None):
+                print("未检测出结果。")
+                sel = 'no'
+            else:
+                print("检测到语言为：", detect_result['language'])
+                print("检测到编码为：", detect_result['encoding'])
+                sel = select("是否正确？(yes/no)：", "请输入yes或no", ['yes', 'no'])
+            if sel == 'no':
+                encoding_list = ['UTF-8', 'GB2312', 'unicode']
+                print("支持的编码类型有：", encoding_list)
+                sel2 = select("请选择编码类型：", "请在列表中选择。", encoding_list)
+                encoding = sel2
+        data = data.decode(encoding).encode('UTF-8')
         img = qrcode.make(data=data)
         img.save("qrcode.jpg")
     except:
-        print("文件操作异常。\n")
+        print("文件操作异常。")
     else:
-        print("二维码已生成（./qrcode.jpg）。\n")
+        print("二维码已生成（./qrcode.jpg）。")
+    finally:
+        f.close()
 
 
 running = True
 while running:
-    print("=======欢迎使用本工具箱，请选择功能：=======")
+    print("\n=======欢迎使用本工具箱，请选择功能：=======")
     print("\t1. base64加解密\n\t2. JSON字典及其反转\n\t3. 二维码生成\n\t4. 退出")
-    while True:
-        selection = input("请输入你的选择(1,2,3,4)：")
-        if selection == '1':
-            func1()
-            break
-        elif selection == '2':
-            func2()
-            break
-        elif selection == '3':
-            func3()
-            break
-        elif selection == '4':
-            running = False
-            break
-        else:
-            print("请在1-4之间选择。")
+    sel = select("请输入你的选择(1,2,3,4)：", "请在1-4之间选择。", ['1', '2', '3', '4'])
+    if sel == '1':
+        func1()
+    elif sel == '2':
+        func2()
+    elif sel == '3':
+        func3()
+    elif sel == '4':
+        running = False

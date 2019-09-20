@@ -2,7 +2,7 @@
 
 使用前请运行下面的命令：
 
-`# pip install qrcode Image`
+`# pip install qrcode Image chardet`
 
 ---
 
