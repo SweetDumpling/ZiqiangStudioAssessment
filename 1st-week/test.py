@@ -82,7 +82,7 @@ def func3():
                 print("检测到编码为：", detect_result['encoding'])
                 sel = select("是否正确？(yes/no)：", "请输入yes或no", ['yes', 'no'])
             if sel == 'no':
-                encoding_list = ['UTF-8', 'GB2312', 'unicode']
+                encoding_list = ['UTF-8', 'GB2312', 'unicode']  # 此处仅为测试通过的编码类型
                 print("支持的编码类型有：", encoding_list)
                 sel2 = select("请选择编码类型：", "请在列表中选择。", encoding_list)
                 encoding = sel2
