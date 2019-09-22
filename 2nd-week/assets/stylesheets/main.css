@@ -21,7 +21,7 @@ html {
     box-sizing: border-box;
 }
 
-h1,h2,body {
+h1,h2,body,div {
     margin: 0px;
     padding: 0px;
     box-sizing: inherit;
