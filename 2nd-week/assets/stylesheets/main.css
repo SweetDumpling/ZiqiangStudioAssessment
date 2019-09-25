@@ -21,7 +21,7 @@ html {
     box-sizing: border-box;
 }
 
-h1,h2,body,div {
+h1,h2,h3,p,body,div {
     margin: 0px;
     padding: 0px;
     box-sizing: inherit;
@@ -39,7 +39,7 @@ body {
     box-sizing: inherit;
 }
 
-.javascript-logo{
+.javascript-logo-header {
     position: absolute;
     top: 28px;
     left: 40px;
@@ -94,19 +94,22 @@ body {
     text-decoration: underline;
 }
 
-.contain {
-    background-image: url(../background.jpg);
+.background {
     background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    box-sizing: inherit;
+}
+
+.main-block-wrapper {
     padding-top: 100px;
     padding-bottom: 150px;
     min-height: 510px;
-    background-size: cover;
-    background-repeat: no-repeat;
     box-sizing: inherit;
     position: relative;
 }
 
-.main {
+.main-container {
     text-align: center;
     margin: 0px auto;
     width: 870px;
@@ -178,7 +181,7 @@ input {
     font-family: Consolas,monospace;
 }
 
-.javascript-input--arrow {
+.javascript-input-arrow {
     display: inline-block;
     box-sizing: inherit;
     width: 15px;
@@ -200,4 +203,107 @@ input {
     position: absolute;
     bottom: 0;
     box-sizing: inherit;
+}
+
+.flex-block-container {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    box-sizing: inherit;
+}
+
+.flex-block {
+    width: 33.333%;
+    box-sizing: inherit;
+}
+
+.block-container {
+    margin-top: 123px;
+    margin-bottom: 100px;
+    text-align: center;
+    box-sizing: inherit;
+}
+
+.block-title {
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1.4;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #aaa;
+    font-family: gotham ssm a,sans-serif;
+    margin-bottom: 8px;
+    margin-top: 3px;
+    box-sizing: inherit;
+}
+
+.block-para {
+    margin-left: 16.66666667%;
+    float: left;
+    width: 66.66666667%;
+    box-sizing: inherit;
+    font-weight: 300;
+    font-size: 32px;
+    line-height: 48px;
+    margin-bottom: 20px;
+    color: #fff;
+    font-family: gotham ssm a,sans-serif;
+}
+
+.block-button {
+    min-width: 180px;
+}
+
+.javascript-footer {
+    height: 100px;
+    background-color: #000;
+    box-sizing: inherit;
+}
+
+.footer-left {
+    float: left;
+    padding-top: 30px;
+    padding-left: 40px;
+    box-sizing: inherit;
+}
+
+.javascript-logo-footer {
+    float: left;
+    height: 40px;
+    box-sizing: inherit;
+}
+
+.copyright {
+    float: left;
+    font-size: 10px;
+    color: #aaa;
+    margin-top: 14px;
+    margin-left: 20px;
+    font-weight: 400;
+    line-height: 1.6;
+    font-family: gotham ssm a,sans-serif;
+    box-sizing: inherit;
+}
+
+.footer-right {
+    float: right;
+    text-align: right;
+    padding-top: 40px;
+    padding-right: 50px;
+    box-sizing: inherit;
+}
+
+.footer-link, .footer-divider {
+    color: #eee;
+    margin-left: 10px;
+    font-size: 12px;
+    box-sizing: inherit;
+    font-family: gotham ssm a,sans-serif;
+    font-weight: 400;
+    text-decoration: none;
+    line-height: 1.5;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
 }
