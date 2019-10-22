@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Lecture Spider!</title>
+    <style type="text/css">
+        h1 {
+            text-align: center;
+        }
+
+        body {
+            background-color: #eee;
+        }
+
+        #form-wrapper {
+            box-sizing: border-box;
+            height: 110px;
+            width: 1000px;
+            margin-left: 100px;
+            padding: 30px 0px;
+            background-color: #FFF;
+            text-align: center;
+            box-shadow: 0px 0px 7px #bbb;
+            border-radius: 10px;
+        }
+
+        #search-select {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            padding-right: 14px;
+            border-radius: 200px;
+            font-weight: 300;
+            font-size: 16px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 40px;
+            margin: 5px;
+            border: none;
+            box-shadow: inset 0px 0px 5px #bbb;
+        }
+
+        #search-select::-ms-expand {
+            display: none;
+        }
+
+        #search-input {
+            border-radius: 200px;
+            font-weight: 300;
+            font-size: 16px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            width: 300px;
+            padding: 0 40px;
+            margin: 5px;
+            border: none;
+            box-shadow: inset 0px 0px 5px #bbb;
+
+        }
+
+        .button {
+            border-radius: 200px;
+            background-color: #1B9AF7;
+            border-color: #1B9AF7;
+            color: #FFF;
+            font-weight: 300;
+            font-size: 16px;
+            text-align: center;
+            line-height: 40px;
+            height: 40px;
+            padding: 0 40px;
+            margin: 5px;
+            transition-duration: .3s;
+            border: none;
+        }
+
+        .button:focus,
+        .button:hover {
+            background-color: #4cb0f9;
+            border-color: #4cb0f9;
+            color: #FFF;
+        }
+
+        a {
+            color: #1B9AF7;
+            text-decoration: none;
+        }
+
+        #lecture-list-wrapper {
+            box-sizing: border-box;
+            padding: 50px;
+            margin: 20px;
+            margin-left: 100px;
+            width: 1000px;
+            background-color: #FFF;
+            box-shadow: 0px 0px 7px #bbb;
+            border-radius: 10px;
+        }
+    </style>
+    <script>
+        function craw() {
+            document.getElementById("lecture-list-wrapper").innerHTML = "<p>请稍候...</p>";
+            var xhr;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4)
+                    if (xhr.status == 200) {
+                        document.getElementById("lecture-list-wrapper").innerHTML = xhr.responseText;
+                    } else {
+                        document.getElementById("lecture-list-wrapper").innerHTML = "抓取失败：" + xhr.status;
+                    }
+            }
+            xhr.open("GET", "{% url 'craw' %}", true);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.send();
+        }
+
+        function search() {
+            document.getElementById("lecture-list-wrapper").innerHTML = "<p>请稍候...</p>";
+            var xhr;
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4)
+                    if (xhr.status == 200) {
+                        document.getElementById("lecture-list-wrapper").innerHTML = xhr.responseText;
+                    } else {
+                        document.getElementById("lecture-list-wrapper").innerHTML = "搜索失败：" + xhr.status;
+                    }
+            }
+            var select = document.getElementById("search-select").value;
+            var input = document.getElementById("search-input").value;
+            if (input == "") {
+                select = "all";
+                input = "all";
+            }
+            input = encodeURIComponent(input)
+            xhr.open("GET", "{% url 'search' %}?select=" + select + "&input=" + input, true);
+            xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+            xhr.send();
+        }
+    </script>
+</head>
+
+<body>
+    <h1>电子信息学院讲座公告列表</h1>
+    <div id="form-wrapper">
+        <select id="search-select">
+            <option value="page_title">公告页面标题</option>
+            <option value="title">讲座标题</option>
+            <option value="speaker">主讲人</option>
+            <option value="time">讲座时间</option>
+            <option value="room">讲座地点</option>
+            <option value="announce_date">公告发布时间</option>
+        </select>
+        <input id="search-input" placeholder="请输入搜索内容" type="text">
+        <button id="search-button" class="button" type="button" onclick="search()">搜索</button>
+        <button id="craw-button" class="button" type="button" onclick="craw()">重新抓取信息</button>
+    </div>
+    <div id="lecture-list-wrapper">
+        {% include "list.html" %}
+    </div>
+</body>
+
+</html>

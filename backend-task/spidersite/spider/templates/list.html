@@ -1,0 +1,12 @@
+<ul>
+    {% for lecture in LectureList %}
+    <li>
+        <a href="{{lecture.url}}"><strong>{{lecture.page_title}}</strong></a>
+        <span>({{lecture.announce_date}}发布)</span>
+        <p>标题：{{lecture.title}}</p>
+        <p>主讲人：{{lecture.speaker}}</p>
+        <p>讲座时间：{{lecture.time}}</p>
+        <p>讲座地点：{{lecture.room}}</p>
+    </li>
+    {% endfor %}
+</ul>
